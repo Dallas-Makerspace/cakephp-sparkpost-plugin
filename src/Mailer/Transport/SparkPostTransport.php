@@ -31,7 +31,7 @@ use SparkPost\SparkPost;
  *
  * Provides an interface between the CakePHP Email functionality and the SparkPost API.
  * 
- * Modified 12/17/2018 to use GuzzleHttp for Adapter - Mike Cole <MikeColeGuru@gmail.com>
+ * Modified 12/17/2018 to use GuzzleHttp for Adapter - Mike Cole <MikeColeGuru@gmail.com> 
  *
  * @package SparkPost\Mailer\Transport
  */
