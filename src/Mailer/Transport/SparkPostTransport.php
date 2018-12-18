@@ -81,6 +81,8 @@ class SparkPostTransport extends AbstractTransport
             $message['replyTo'] = $replyTo;
         }
 
+        
+
         // Send message
         try {
             $promise = $sparkpost->transmissions->post($message);
