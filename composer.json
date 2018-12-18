@@ -1,12 +1,17 @@
 {
-  "name": "syntaxera/cakephp-sparkpost-plugin",
+  "name": "dallasmakerspace/cakephp-sparkpost-plugin",
   "description": "A CakePHP plugin for sending mail via SparkPost's REST API",
   "type": "cakephp-plugin",
   "authors": [{
     "name": "Jamison Bryant",
     "homepage": "http://jamisonbryant.com",
     "role": "Lead Developer"
-  }, {
+  }, 
+  {
+    "name": "Mike Cole",
+    "role": "Code Dragon"
+  },
+  {
     "name": "CakePHP Community",
     "homepage": "https://github.com/syntaxera/cakephp-sparkpost-plugin/graphs/contributors"
   }],

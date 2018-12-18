@@ -21,8 +21,8 @@ use Cake\Core\Configure;
 use Cake\Mailer\AbstractTransport;
 use Cake\Mailer\Email;
 use Cake\Network\Exception\BadRequestException;
-use Cake\Network\Http\Client;
-use Ivory\HttpAdapter\CakeHttpAdapter;
+use GuzzleHttp\Client;
+use Http\Adapter\Guzzle6\Client as GuzzleAdapter;
 use SparkPost\APIResponseException;
 use SparkPost\SparkPost;
 
@@ -30,6 +30,8 @@ use SparkPost\SparkPost;
  * Spark Post Transport Class
  *
  * Provides an interface between the CakePHP Email functionality and the SparkPost API.
+ * 
+ * Modified 12/17/2018 to use GuzzleHttp for Adapter - Mike Cole <MikeColeGuru@gmail.com>
  *
  * @package SparkPost\Mailer\Transport
  */
@@ -47,7 +49,7 @@ class SparkPostTransport extends AbstractTransport
         $apiKey = $this->config('apiKey');
 
         // Set up HTTP request adapter
-        $adapter = new CakeHttpAdapter(new Client());
+        $adapter = new GuzzleAdapter(new Client());
 
         // Create SparkPost API accessor
         $sparkpost = new SparkPost($adapter, [ 'key' => $apiKey ]);
@@ -72,8 +74,8 @@ class SparkPostTransport extends AbstractTransport
         ];
         
         if ($replyTo) {
-	    $message['replyTo'] = $replyTo;
-	}
+            $message['replyTo'] = $replyTo;
+        }
 
         // Send message
         try {
