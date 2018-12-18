@@ -88,6 +88,7 @@ class SparkPostTransport extends AbstractTransport
             // TODO: Determine if BRE is the best exception type
             throw new BadRequestException(sprintf('SparkPost error (%d): %s',
                 $e->getCode(), ucfirst($e->getMessage())
+            ));
         }
     }
 }
