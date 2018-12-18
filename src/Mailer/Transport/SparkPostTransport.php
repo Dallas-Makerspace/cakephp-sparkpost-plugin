@@ -23,7 +23,7 @@ use Cake\Mailer\Email;
 use Cake\Network\Exception\BadRequestException;
 use GuzzleHttp\Client;
 use Http\Adapter\Guzzle6\Client as GuzzleAdapter;
-use SparkPost\APIResponseException;
+use SparkPost\SparkPostException;
 use SparkPost\SparkPost;
 
 /**
@@ -84,10 +84,10 @@ class SparkPostTransport extends AbstractTransport
         // Send message
         try {
             $sparkpost->transmissions->post($message);
-        } catch(APIResponseException $e) {
+        } catch(SparkPostException $e) {
             // TODO: Determine if BRE is the best exception type
-            throw new BadRequestException(sprintf('SparkPost API error %d (%d): %s (%s)',
-                $e->getAPICode(), $e->getCode(), ucfirst($e->getAPIMessage()), $e->getAPIDescription()));
+            throw new BadRequestException(sprintf('SparkPost error (%d): %s',
+                $e->getCode(), ucfirst($e->getMessage())
         }
     }
 }
