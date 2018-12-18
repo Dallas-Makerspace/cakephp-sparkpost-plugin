@@ -56,7 +56,6 @@ class SparkPostTransport extends AbstractTransport
 
         // Pre-process CakePHP email object fields
         $from = (array) $email->from();
-        $sender = sprintf('%s <%s>', mb_encode_mimeheader(array_values($from)[0]), array_keys($from)[0]);
         $to = (array) $email->to();
         $replyTo = $email->getReplyTo() ? array_values($email->getReplyTo())[0] : null;
         
@@ -66,20 +65,25 @@ class SparkPostTransport extends AbstractTransport
 
         // Build message to send
         $message = [
-            'from' => $sender,
-            'html' => empty($email->message('html')) ? $email->message('text') : $email->message('html'),
-            'text' => $email->message('text'),
-            'subject' => mb_decode_mimeheader($email->subject()),
-            'recipients' => $recipients
+            'content' => [
+                'from' => [
+                    'name' => mb_encode_mimeheader(array_values($from)[0]),
+                    'email' => array_keys($from)[0],
+                ],
+                'subject' => mb_decode_mimeheader($email->subject()),
+                'html' => empty($email->message('html')) ? $email->message('text') : $email->message('html'),
+                'text' => $email->message('text'),
+            ],
+            'recipients' => $recipients,
         ];
-        
+
         if ($replyTo) {
             $message['replyTo'] = $replyTo;
         }
 
         // Send message
         try {
-            $sparkpost->transmission->send($message);
+            $sparkpost->transmissions->post($message);
         } catch(APIResponseException $e) {
             // TODO: Determine if BRE is the best exception type
             throw new BadRequestException(sprintf('SparkPost API error %d (%d): %s (%s)',
