@@ -83,7 +83,8 @@ class SparkPostTransport extends AbstractTransport
 
         // Send message
         try {
-            $sparkpost->transmissions->post($message);
+            $promise = $sparkpost->transmissions->post($message);
+            $promise->wait();
         } catch(SparkPostException $e) {
             // TODO: Determine if BRE is the best exception type
             throw new BadRequestException(sprintf('SparkPost error (%d): %s',
